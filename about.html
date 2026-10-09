@@ -1,0 +1,81 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Sip Notes · Case study</title>
+<meta name="description" content="Sip Notes: a personal memory layer built around coffee and tea. Photo, moment, memory, with AI used for organizing, not recognizing.">
+<script>try{var l=localStorage.getItem('sip-lang');if(l!=='zh'&&l!=='en')l=(navigator.language||'').toLowerCase().indexOf('zh')===0?'zh':'en';document.documentElement.lang=l==='en'?'en':'zh-CN'}catch(e){}</script>
+<style>:root{--p:#efe3cc;--c:#f8f0df;--i:#3b2a20;--s:#8a6f5a;--a:#7a3b22;--l:#d9c7a6}@media(prefers-color-scheme:dark){:root{--p:#2a201a;--c:#352920;--i:#f0e2c8;--s:#b49b80;--a:#e0a074;--l:#4a3b2f}}
+*{box-sizing:border-box}body{margin:0;background:var(--p);color:var(--i);font:16px/1.8 "Noto Serif SC",Georgia,serif}main{max-width:680px;margin:0 auto;padding:44px 20px 90px}
+h1{font-size:34px;margin:0 0 4px}h2{font-size:19px;margin:36px 0 6px;color:var(--a)}p,li{margin:6px 0}.s{color:var(--s)}a{color:var(--a)}.foot{margin-top:44px;border-top:1px solid var(--l);padding-top:14px}
+.box{background:var(--c);padding:14px 18px;border-left:4px solid var(--a);margin:14px 0}
+.btn{display:inline-block;background:var(--i);color:var(--c);padding:8px 18px;border-radius:3px;text-decoration:none;margin:10px 0}
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin:12px 0}.shots figure{margin:0}.shots img{width:100%;border:5px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.25)}.shots figcaption{font-size:13px;color:var(--s);text-align:center}
+.tl{border-left:2px solid var(--l);padding-left:16px;margin:10px 0}.tl b{color:var(--a)}
+svg{width:100%;height:auto}svg rect{fill:var(--c);stroke:var(--s)}svg text{fill:var(--i);font:13px sans-serif}svg path{stroke:var(--s);fill:none}
+.en{display:none}html[lang=en] .en{display:revert}html[lang=en] .zh{display:none}
+.lang{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));right:10px;z-index:9;display:flex;background:var(--c);border:1.5px solid var(--i);border-radius:16px;overflow:hidden}.lang button{font-size:13px;font-family:inherit;border:0;background:transparent;color:var(--i);padding:2px 12px;cursor:pointer}.lang button.on{background:var(--i);color:var(--c)}</style></head><body>
+<div class="lang" role="group" aria-label="Language"><button type="button" data-l="zh">中文</button><button type="button" data-l="en">EN</button></div>
+<main>
+<a href="/"><span class="zh">← 回到 App</span><span class="en">← Back to app</span></a>
+<div class="zh"><a class="btn" href="/">试用 / Try it →</a></div><div class="en"><a class="btn" href="/">Try it →</a></div>
+<div class="box"><b>TL;DR</b><br>A personal memory layer for real life, built around coffee &amp; tea. One photo and one sentence become a memory. AI organizes (title, short story, people, topics) instead of recognizing drinks, never invents details, and the user confirms every memory before saving. Serverless AI proxy, provider-swappable via env vars, local-first storage with optional cloud sync (Supabase, row-level security).</div>
+<h2><span class="zh">产品截图</span><span class="en">Screenshots</span></h2>
+<div class="shots">
+<figure><img src="shots/1.png" alt="capture" onerror="this.parentElement.style.display='none'"><figcaption><span class="zh">拍一张，写一句</span><span class="en">Take a photo, write a line</span></figcaption></figure>
+<figure><img src="shots/2.png" alt="memory preview" onerror="this.parentElement.style.display='none'"><figcaption><span class="zh">整理成记忆，可编辑</span><span class="en">Memory preview, editable</span></figcaption></figure>
+<figure><img src="shots/3.png" alt="memory cards" onerror="this.parentElement.style.display='none'"><figcaption><span class="zh">故事优先的卡片</span><span class="en">Story-first cards</span></figcaption></figure>
+</div>
+<div class="zh">
+<h1>Sip Notes · 产品说明</h1>
+<p class="s">一个围绕咖啡和茶的个人记忆层：记录探店喝到的那一杯，也记录和谁见面、聊了什么。由 Lemon设计并构建，用来展示我如何把 AI 用在一个具体的场景里：把随手写的一句话，整理成一条有故事的记忆。</p>
+<h2>问题</h2><p>记录类产品很容易死在两点：每次录入太麻烦，记完又得不到回报。我自己常常探店、约 coffee chat，真正想留下的不是"一杯美式"，而是那一刻和那个人。</p>
+<h2>迭代故事：一次主动的砍功能</h2>
+<div class="tl">
+<p><b>v1 识别饮品。</b>最早的版本让 AI 从照片识别饮品种类，顺手填表。</p>
+<p><b>调整方向。</b>后来我意识到，靠一张照片识别饮品既不准，对用户也没多大价值；真正让人懒得记录的是"填表"。于是我把 AI 的角色从"识别"改成"整理"：把随手写的一句话变成标题、小故事、人物、话题和心情。</p>
+<p><b>v3 照片优先。</b>照片是主入口；饮品、温度、甜度、价格、地点、心情、评分全部可选并默认折叠；"和谁在一起"成为一等公民；AI 整理后先出"记忆预览"，用户确认并可编辑后才保存。目标是 30–60 秒完成一条。</p>
+<p><b>上线与测试。</b>部署到公开网址，用真实手机测试。测试中发现一个问题：即使用户已经填了人名，标题仍写成"和同行的人喝咖啡"。原因是提示词里的字段标签被模型当成了正文。我改了提示词，并加了一层代码保护，把残留的占位词替换成用户填写的名字，同时收紧了话题和感受只能来自用户文字。</p>
+<p><b>先体验，再留存。</b>不登录也能完成第一条记忆，保存之后才邀请用邮箱和密码注册；登录后，这台设备上已有的记忆会自动同步到云端，换手机也不会丢。目前用邮箱加密码，是因为免费方案下要自定义验证码邮件，需要自己的域名和邮件服务；有了之后会升级成验证码登录。</p>
+<p><b>反馈入口。</b>页面右下角有反馈窗口，用户可以选择功能建议、问题或产品建议，并附上图片，我直接在后台读取。</p>
+</div>
+<h2>AI 设计：宁可留空，不要编造</h2>
+<div class="box">只使用用户写出的内容，或照片里清晰可读的文字；不根据图片猜饮品，不编造店名、价格、人名和话题；不确定就留空。结果以预览呈现，用户手填的字段永远优先于 AI。</div>
+<h2>架构</h2>
+<svg viewBox="0 0 640 120" role="img" aria-label="architecture"><rect x="6" y="30" width="130" height="56" rx="4"/><text x="71" y="55" text-anchor="middle">浏览器 / 手机</text><text x="71" y="73" text-anchor="middle">本地存储</text>
+<rect x="180" y="30" width="140" height="56" rx="4"/><text x="250" y="55" text-anchor="middle">静态页面</text><text x="250" y="73" text-anchor="middle">Netlify</text>
+<rect x="364" y="30" width="130" height="56" rx="4"/><text x="429" y="55" text-anchor="middle">Serverless</text><text x="429" y="73" text-anchor="middle">/api/organize</text>
+<rect x="538" y="30" width="96" height="56" rx="4"/><text x="586" y="55" text-anchor="middle">LLM</text><text x="586" y="73" text-anchor="middle">可切换</text>
+<path d="M136 58H180M320 58H364M494 58H538"/></svg>
+<ul><li>密钥只在服务端，不进浏览器；函数带限流，防止被刷。</li><li>OpenAI 兼容接口：换模型只改环境变量，可在国内模型与海外模型之间切换。</li><li>地点是带来源（手动 / EXIF / OCR / GPS）的对象，为之后接入地图预留。</li><li>账号与云端同步用 Supabase：每个用户只能读写自己的记忆（行级安全）。</li></ul>
+<h2>刻意不做的</h2><p>社交动态、关注、点赞、公开主页、推荐、咖啡店数据库、复杂 RAG。它是私人的，不是社区。</p>
+<h2>下一步</h2><ul><li>编辑已保存的记忆</li><li>某个人 / 某个话题的记忆时间线</li><li>邮箱验证码登录和找回密码（需要自己的域名和邮件服务）</li><li>语音记录</li></ul>
+<p class="s foot">联系 / Contact：<a href="mailto:lemonywm@gmail.com">lemonywm@gmail.com</a></p>
+</div>
+<div class="en">
+<h1>Sip Notes · Case study</h1>
+<p class="s">A personal memory layer built around coffee &amp; tea: the café drink you had, who you met, and what you talked about. Designed and built by Lemon to show how I apply AI to one concrete scenario: turning a casual one-line note into an organized memory.</p>
+<h2>The problem</h2><p>Tracking apps usually die for two reasons: logging takes effort, and you get nothing back. I often visit cafés and have coffee chats. What I want to keep is not "an americano", it is that moment and that person.</p>
+<h2>Iteration story: cutting a feature on purpose</h2>
+<div class="tl">
+<p><b>v1 Drink recognition.</b> The first version had AI identify the drink from a photo and fill in the form.</p>
+<p><b>The pivot.</b> Recognizing a drink from a single photo turned out to be unreliable and low-value; the real burden is the form itself. So I changed AI's role from recognizing to organizing: turning one casual sentence into a title, short story, people, topics and mood.</p>
+<p><b>v3 Photo-first.</b> The photo is the entry point. Drink, temperature, sweetness, price, place, mood and rating are all optional and collapsed. "Who were you with" is a first-class field. After organizing, the user sees an editable memory preview and confirms before saving. The goal is under 30–60 seconds per memory.</p>
+<p><b>Ship and test.</b> I deployed to a public URL and tested on a real phone. I found a bug: even after the user typed a name, the title read "coffee with my companion", because the model treated a field label in my prompt as content. I rewrote the prompt, added a code guard that replaces leftover placeholder words with the user's name, and tightened topics and feelings so they only come from the user's own text.</p>
+<p><b>Experience first, keep later.</b> The first memory works without an account; only after saving do I invite the user to sign up with email and password. After signing in, memories already on the device sync to the cloud automatically, so nothing is lost when they change phones. I use email and password for now because customizing code emails on the free plan needs my own domain and mail service; once I have those I will upgrade to email-code login.</p>
+<p><b>Feedback loop.</b> A feedback window sits at the bottom right: users pick feature request, bug or product advice and can attach an image, and I read it in the back office.</p>
+</div>
+<h2>AI design: leave it blank rather than make it up</h2>
+<div class="box">Use only what the user wrote, or text clearly legible in the photo. Never guess the drink from the image; never invent café names, prices, people or topics; leave a field empty when unsure. Results appear as a preview, and what the user typed always overrides the AI.</div>
+<h2>Architecture</h2>
+<svg viewBox="0 0 640 120" role="img" aria-label="architecture"><rect x="6" y="30" width="130" height="56" rx="4"/><text x="71" y="55" text-anchor="middle">Browser / phone</text><text x="71" y="73" text-anchor="middle">local storage</text>
+<rect x="180" y="30" width="140" height="56" rx="4"/><text x="250" y="55" text-anchor="middle">Static page</text><text x="250" y="73" text-anchor="middle">Netlify</text>
+<rect x="364" y="30" width="130" height="56" rx="4"/><text x="429" y="55" text-anchor="middle">Serverless</text><text x="429" y="73" text-anchor="middle">/api/organize</text>
+<rect x="538" y="30" width="96" height="56" rx="4"/><text x="586" y="55" text-anchor="middle">LLM</text><text x="586" y="73" text-anchor="middle">swappable</text>
+<path d="M136 58H180M320 58H364M494 58H538"/></svg>
+<ul><li>The API key lives server-side only, and the function is rate-limited to prevent abuse.</li><li>OpenAI-compatible interface: swap models by changing environment variables, between Chinese and overseas providers.</li><li>Place is an object with a source (manual / EXIF / OCR / GPS), ready for maps later.</li><li>Accounts and cloud sync run on Supabase: each user can only read and write their own memories (row-level security).</li></ul>
+<h2>Deliberately not built</h2><p>Social feed, followers, likes, public profiles, recommendations, a café database, complex RAG. It is private, not a community.</p>
+<h2>Next</h2><ul><li>Edit saved memories</li><li>Timeline per person / topic</li><li>Email-code login and password reset (needs my own domain and mail service)</li><li>Voice notes</li></ul>
+<p class="s foot">Contact: <a href="mailto:lemonywm@gmail.com">lemonywm@gmail.com</a></p>
+</div>
+</main>
+<script>(function(){var L;try{L=localStorage.getItem('sip-lang')}catch(e){}if(L!=='zh'&&L!=='en')L=(navigator.language||'').toLowerCase().indexOf('zh')===0?'zh':'en';
+function set(l){L=l;try{localStorage.setItem('sip-lang',l)}catch(e){}document.documentElement.lang=l==='en'?'en':'zh-CN';document.title=l==='en'?'Sip Notes · Case study':'Sip Notes · 产品说明';document.querySelectorAll('.lang button').forEach(function(b){b.classList.toggle('on',b.dataset.l===l)})}
+document.querySelector('.lang').onclick=function(e){var b=e.target.closest('button');if(b)set(b.dataset.l)};set(L)})();</script>
+</body></html>
