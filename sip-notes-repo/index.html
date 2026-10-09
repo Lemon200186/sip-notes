@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sip Notes · 一杯一页</title><link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>☕</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#efe3cc;--card:#f8f0df;--ink:#3b2a20;--soft:#8a6f5a;--tape:#c9a45c;--accent:#7a3b22;--line:#d9c7a6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#2a201a;--card:#352920;--ink:#f0e2c8;--soft:#b49b80;--tape:#8b6d34;--accent:#e0a074;--line:#4a3b2f}}
+:root[data-theme="dark"]{--paper:#2a201a;--card:#352920;--ink:#f0e2c8;--soft:#b49b80;--tape:#8b6d34;--accent:#e0a074;--line:#4a3b2f}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper) repeating-linear-gradient(transparent 0 31px,var(--line) 31px 32px);color:var(--ink);font:16px/1.7 "Noto Serif SC",Georgia,serif}
+main{max-width:620px;margin:0 auto;padding:28px 18px 80px}
+h1{font:400 44px/1.1 "Ma Shan Zheng",cursive;margin:8px 0 2px}
+.sub{color:var(--soft);margin:0 0 24px;font-size:14px}
+.pad{background:var(--card);padding:18px;border-radius:3px;box-shadow:0 1px 0 var(--line),0 6px 14px rgba(60,35,15,.12);position:relative;margin-bottom:22px}
+.pad:before,.card:before{content:"";position:absolute;top:-10px;left:28px;width:74px;height:20px;background:var(--tape);opacity:.75;transform:rotate(-3deg)}
+label,.lab{display:block;font-size:13px;color:var(--soft);margin:14px 0 4px}
+input,textarea,select{width:100%;font:inherit;color:var(--ink);background:transparent;border:0;border-bottom:1.5px dashed var(--soft);padding:5px 2px;border-radius:0}
+select option{color:#000}
+textarea{min-height:84px;resize:vertical}
+input:focus,textarea:focus,select:focus,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button{font:inherit;cursor:pointer;border:1.5px solid var(--ink);background:transparent;color:var(--ink);padding:6px 14px;border-radius:3px}
+button.main{background:var(--ink);color:var(--card)}button:disabled{opacity:.45;cursor:default}
+.link{border:0;padding:6px 2px;color:var(--soft);text-decoration:underline}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border-radius:18px;padding:3px 13px;font-size:14px;border:1.5px solid var(--soft);color:var(--soft)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;align-items:center}
+.status{font-size:13px;color:var(--accent);min-height:20px;margin-top:8px}
+.hide{display:none!important}
+.snap{border:2px dashed var(--soft);border-radius:4px;padding:22px 14px;text-align:center;background:color-mix(in srgb,var(--tape) 14%,transparent)}
+.snap .big{font:400 24px/1.3 "Ma Shan Zheng",cursive;margin:0 0 10px}
+.snap .bar{justify-content:center;margin-top:6px}
+.snap img{max-width:100%;max-height:260px;border:6px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.25);transform:rotate(-1.5deg)}
+.who{padding:10px 12px;margin-top:10px;background:color-mix(in srgb,var(--tape) 18%,transparent);border-left:3px solid var(--tape)}
+.pre h2{font:400 26px/1.3 "Ma Shan Zheng",cursive;margin:0 0 4px}
+.pre input.t{font:400 22px "Ma Shan Zheng",cursive}
+.pre .g{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.tools{display:flex;gap:10px;margin:26px 0 8px;align-items:center}.tools input{flex:1}
+.people{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.card{background:var(--card);padding:16px;margin:28px 0;position:relative;box-shadow:0 1px 0 var(--line),0 5px 12px rgba(60,35,15,.1);display:flex;gap:14px}
+.card:nth-child(odd){transform:rotate(-.5deg)}.card:nth-child(even){transform:rotate(.4deg)}
+.card:before{left:auto;right:24px;width:56px;transform:rotate(4deg)}
+.thumb{width:92px;height:92px;object-fit:cover;border:4px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.25);transform:rotate(-3deg);flex:none}
+.card h3{margin:0;font:400 25px/1.3 "Ma Shan Zheng",cursive}
+.date{font-size:12px;color:var(--soft)}
+.story{font-size:17px;line-height:1.75;margin:6px 0}
+.meta{font-size:13px;color:var(--soft)}
+.tag{display:inline-block;font-size:11px;border:1px solid var(--soft);border-radius:10px;padding:0 8px;margin:6px 4px 0 0;color:var(--soft)}
+.del{margin-left:auto;font-size:12px;border:0;color:var(--soft);padding:0;align-self:flex-start}
+.empty{text-align:center;color:var(--soft);padding:30px 0}
+.lang{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));right:10px;z-index:9;display:flex;background:var(--card);border:1.5px solid var(--ink);border-radius:16px;overflow:hidden}.lang button{border:0;border-radius:0;padding:2px 12px;font-size:13px}.lang button.on{background:var(--ink);color:var(--card)}
+.fbfab{position:fixed;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:8;background:var(--ink);color:var(--card);border-radius:20px;padding:6px 16px;box-shadow:0 3px 10px rgba(0,0,0,.3)}.fbback{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:20;display:flex;align-items:center;justify-content:center;padding:14px}.fbpanel{background:var(--card);width:100%;max-width:440px;max-height:92vh;overflow:auto;padding:18px;border-radius:3px}.fbpanel h2{font:400 24px "Ma Shan Zheng",cursive;margin:0 0 4px}
+.acts{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:8px;align-self:flex-start}.acts .del{margin-left:0;align-self:auto}.ed{font-size:12px;border:0;color:var(--soft);padding:0}
+details{margin-top:14px}summary{cursor:pointer;color:var(--soft);font-size:14px}summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.thumbs{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:6px 0}.th{position:relative}.snap .th img{width:96px;height:96px;max-height:none;object-fit:cover;border:4px solid #fff;transform:none}.th .x{position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;padding:0;line-height:1;background:var(--ink);color:var(--card);font-size:14px}.pvthumbs{display:flex;gap:12px;flex-wrap:wrap;margin:6px 0}.pvth img{width:96px;height:96px;object-fit:cover;border:4px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.25)}.pcol{flex:none;display:flex;flex-direction:column;gap:8px;align-items:center}.mini{display:flex;gap:4px}.mini img{width:40px;height:40px;object-fit:cover;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.range{display:flex;gap:10px;margin:6px 0}.range input{flex:1}.tools{flex-wrap:wrap}.tools input{min-width:140px}#acctSync{margin-left:6px}.acct{font-size:13px;color:var(--soft);margin:-14px 0 16px}.acct .link{font-size:13px}
+</style>
+</head>
+<body>
+<div class="lang" role="group" aria-label="Language"><button type="button" data-l="zh">中文</button><button type="button" data-l="en">EN</button></div>
+<main>
+<h1>Sip Notes</h1>
+<p class="sub">拍下一个瞬间，写一句话，AI 帮你变成一段记忆。 <a href="/about.html" style="color:var(--accent)">关于这个项目 →</a></p>
+
+<div class="acct"><span id="acctTxt"></span><span id="acctSync"></span> <button class="link" id="acctBtn" type="button"></button> · <button class="link" id="fbLink2" type="button">反馈</button></div>
+<section class="pad" id="capture" aria-label="记录一个瞬间">
+  <div class="snap">
+    <p class="big" id="snapTitle">先拍下这一刻</p>
+    <div id="thumbs" class="thumbs"></div><div class="meta" id="capHint"></div>
+    <div class="bar">
+      <button class="main" id="camBtn" type="button">拍照</button>
+      <button id="libBtn" type="button">从相册选</button>
+    </div>
+    <input id="cam" type="file" accept="image/*" capture="environment" hidden>
+    <input id="lib" type="file" accept="image/*" multiple hidden>
+  </div>
+
+  <label for="note">这一刻</label>
+  <textarea id="note" placeholder="随便写：在哪、喝了什么、和谁、聊了什么……"></textarea>
+
+  <div class="lab">和谁在一起？</div>
+  <div class="chips" id="withC"></div>
+  <div class="who hide" id="whoBox">
+    <label for="pname" id="pLab" style="margin-top:0">名字</label>
+    <input id="pname" list="plist" autocomplete="off">
+    <datalist id="plist"></datalist>
+    <div class="chips hide" id="pick" style="margin-top:8px"></div>
+  </div>
+
+  <div class="bar" style="margin-top:14px"><button type="button" class="link" id="moreBtn">+ 更多细节</button></div>
+  <div id="more" class="hide">
+    <div class="lab">饮品</div><div class="chips" id="drinkC"></div>
+    <div class="lab">温度</div><div class="chips" id="tempC"></div>
+    <div class="lab">甜度</div><div class="chips" id="sweetC"></div>
+    <div class="lab">评分</div><div class="chips" id="starC"></div>
+    <div class="lab">心情（可多选）</div><div class="chips" id="moodC"></div><input id="moodCustom" maxlength="20" placeholder="+ 自定义心情，回车添加" style="margin-top:8px">
+    <div class="bar" style="margin-top:14px">
+      <button type="button" class="chip" id="placeBtn">+ 添加地点</button>
+      <button type="button" class="chip" id="priceBtn">+ 添加价格</button>
+    </div>
+    <div id="placeWrap" class="hide"><label for="place">📍 地点（可选）</label><input id="place"></div>
+    <div id="priceWrap" class="hide"><label for="price">价格（可选）</label><input id="price" placeholder="例如 38 元 / $5"></div>
+  </div>
+
+  <div class="bar">
+    <button class="main" id="orgBtn" type="button" disabled>✨ 整理成记忆</button>
+    <button class="link" id="quickBtn" type="button" disabled>直接保存</button>
+  </div>
+  <div class="status" id="status" role="status"></div>
+</section>
+
+<section class="pad pre hide" id="preview" aria-label="记忆预览">
+  <h2>✨ 你的记忆</h2>
+  <div class="meta">AI 整理的内容都可以直接修改，不确定的地方已留空。</div>
+  <label for="pvTitle">标题</label><input id="pvTitle" class="t">
+  <label for="pvStory">一小段故事</label><textarea id="pvStory"></textarea>
+  <div class="g">
+    <div><label for="pvPlace">📍 地点</label><input id="pvPlace"></div>
+    <div><label for="pvPerson">👤 人物</label><input id="pvPerson" list="plist"></div>
+    <div><label for="pvDrink">☕ 饮品</label><select id="pvDrink"></select></div>
+    <div><label for="pvTemp">温度</label><select id="pvTemp"></select></div>
+    <div><label for="pvTopics">💬 话题（逗号分隔）</label><input id="pvTopics"></div>
+    <div><label for="pvMood">心情（可多个，可自由填写）</label><input id="pvMood" placeholder="用顿号分隔"></div>
+  </div>
+  <details id="pvMore"><summary>甜度、评分、价格、照片</summary>
+  <div class="g">
+   <div><label for="pvSweet">甜度</label><select id="pvSweet"></select></div>
+   <div><label for="pvRating">评分</label><select id="pvRating"></select></div>
+   <div><label for="pvPrice">价格</label><input id="pvPrice"></div>
+  </div>
+  <div class="lab">照片（最多 3 张）</div>
+  <div class="pvthumbs" id="pvThumbs"></div>
+  <div class="bar" style="margin-top:4px"><button type="button" id="pvAdd">添加照片</button><span class="meta" id="pvHint"></span></div>
+  <input id="pvPhoto" type="file" accept="image/*" hidden>
+ </details>
+ <div class="bar"><button class="main" id="saveBtn" type="button">保存记忆</button><button class="link" id="backBtn" type="button">返回修改</button></div>
+</section>
+
+<section class="pad hide" id="loginBox" aria-label="Sign in">
+  <p id="loginMsg" class="meta" style="margin-top:0"></p>
+  <label for="lemail">邮箱</label><input id="lemail" type="email" autocomplete="email" placeholder="you@example.com">
+  <label for="lpass">密码（至少 6 位）</label><input id="lpass" type="password" autocomplete="current-password">
+  <div class="bar"><button class="main" id="authBtn" type="button">登录</button><button class="link" id="modeBtn" type="button">没有账号？注册</button><button class="link" id="laterBtn" type="button">以后再说</button></div>
+  <div class="status" id="lstatus" role="status"></div>
+</section>
+<div class="tools"><input id="q" type="search" placeholder="搜索人名、话题、地点、任何一句话" aria-label="搜索"><button type="button" id="expJ">导出日记</button><button type="button" id="exp">备份</button></div>
+<div class="chips" id="timeC" style="margin:8px 0"></div>
+<div class="range hide" id="rangeBox"><input type="date" id="dFrom" aria-label="开始日期"><input type="date" id="dTo" aria-label="结束日期"></div>
+<div class="people" id="peopleRow"></div>
+<div id="list"></div>
+<p class="acct" style="margin:34px 0 0;text-align:center">Sip Notes · build 10-10 · <button class="link" id="fbLink" type="button">反馈</button></p>
+</main>
+<button type="button" id="fbOpen" class="fbfab">反馈</button>
+<div class="fbback hide" id="fbBox" role="dialog" aria-modal="true" aria-labelledby="fbTitle"><div class="fbpanel">
+ <h2 id="fbTitle">给我们反馈</h2>
+ <label for="fbName">名字</label><input id="fbName" maxlength="80" autocomplete="name">
+ <label for="fbType">类型</label><select id="fbType"><option value="feature_request">功能建议</option><option value="bug">问题 / Bug</option><option value="product_advice">产品建议</option></select>
+ <label for="fbMsg">内容</label><textarea id="fbMsg" maxlength="4000"></textarea>
+ <label for="fbContact">联系方式（可选）</label><input id="fbContact" maxlength="200" placeholder="邮箱 / 微信 / LinkedIn">
+ <label for="fbImg">相关图片（可选）</label><input id="fbImg" type="file" accept="image/*">
+ <div class="bar"><button class="main" id="fbSend" type="button">提交</button><button class="link" id="fbCancel" type="button">取消</button></div>
+ <div class="status" id="fbStatus" role="status"></div>
+</div></div>
+<script>
+const $=s=>document.querySelector(s);
+const DICT={"拍下一个瞬间，写一句话，AI 帮你变成一段记忆。":"Capture a moment, write a line, and AI turns it into a memory.","关于这个项目 →":"About this project →","先拍下这一刻":"Capture this moment","好，再写一句话":"Nice, now write a line","拍照":"Take photo","从相册选":"Choose from library","这一刻":"This moment","随便写：在哪、喝了什么、和谁、聊了什么……":"Just write: where, what you drank, who with, what you talked about...","和谁在一起？":"Who were you with?","一个人":"Alone","认识的人":"Someone I know","新认识的人":"Someone new","对方的名字（可选）":"Their name (optional)","选择或新建一个人":"Pick or add a person","不知道名字也没关系":"Fine if you do not know the name","输入名字，或点下面的人":"Type a name, or tap one below","+ 更多细节":"+ More details","− 收起细节":"− Fewer details","饮品":"Drink","温度":"Temperature","甜度":"Sweetness","评分":"Rating","心情":"Mood","+ 添加地点":"+ Add place","+ 添加价格":"+ Add price","📍 地点（可选）":"📍 Place (optional)","价格（可选）":"Price (optional)","例如 38 元 / $5":"e.g. $5","✨ 整理成记忆":"✨ Turn into a memory","直接保存":"Save as is","✨ 你的记忆":"✨ Your memory","AI 整理的内容都可以直接修改，不确定的地方已留空。":"Everything here is editable. Anything uncertain was left blank.","标题":"Title","一小段故事":"A little story","📍 地点":"📍 Place","👤 人物":"👤 Person","☕ 饮品":"☕ Drink","💬 话题（逗号分隔）":"💬 Topics (comma-separated)","保存记忆":"Save memory","返回修改":"Back to edit","未填":"Not set","搜索人名、话题、地点、任何一句话":"Search people, topics, places, anything","搜索":"Search","导出":"Export","一个瞬间":"A moment","删除":"Delete","还没有记忆，拍下现在这一刻吧。":"No memories yet. Capture this moment.","没有匹配的记忆。":"No matching memories.","已保存。":"Saved.","正在整理成记忆……":"Organizing into a memory...","记录一个瞬间":"Record a moment","记忆预览":"Memory preview","咖啡":"Coffee","茶":"Tea","抹茶":"Matcha","奶茶":"Milk tea","其他":"Other","热":"Hot","冰":"Iced","温":"Warm","平静":"Calm","受启发":"Inspired","有连接":"Connected","思考":"Thoughtful","放松":"Relaxed","有活力":"Energetic","删除这条记忆？":"Delete this memory?","AI 暂时没成功，已用你写的内容生成预览。":"AI did not work this time. A preview was built from what you wrote.","调用太频繁了，已用你写的内容生成预览。":"Too many requests. A preview was built from what you wrote.","这张图读不了，已用你写的内容生成预览。":"This image could not be read. A preview was built from what you wrote.","你没有允许使用 Claude，已用你写的内容生成预览。":"AI is not available. A preview was built from what you wrote."};
+const PAT=[[/^甜度 (.+)$/,"Sweetness $1"],[/^(\d) 星$/,"$1 stars"]];
+let LANG;try{LANG=localStorage.getItem('sip-lang')}catch(e){}
+if(LANG!=='zh'&&LANG!=='en')LANG=(navigator.language||'').toLowerCase().startsWith('zh')?'zh':'en';
+const tr=s=>{const k=s.trim();if(!k)return s;let v=DICT[k];if(v==null)for(const[p,r]of PAT){if(p.test(k)){v=k.replace(p,r);break}}return v==null?s:s.replace(k,v)};
+const L=s=>LANG==='en'?tr(s):s;
+const store=new WeakMap();
+function tnode(n){const r=store.get(n),o=(r&&n.nodeValue===r.t)?r.o:n.nodeValue,t=LANG==='en'?tr(o):o;if(n.nodeValue!==t)n.nodeValue=t;store.set(n,{o,t})}
+function tattr(el,a){const cur=el.getAttribute(a);if(cur==null)return;const key='_o_'+a,r=el[key],o=(r&&cur===r.t)?r.o:cur,t=LANG==='en'?tr(o):o;if(cur!==t)el.setAttribute(a,t);el[key]={o,t}}
+function applyLang(){
+ const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
+ while(n=w.nextNode()){if(/^(SCRIPT|STYLE)$/.test(n.parentNode.nodeName))continue;tnode(n)}
+ document.querySelectorAll('[placeholder],[aria-label],[title]').forEach(el=>['placeholder','aria-label','title'].forEach(a=>tattr(el,a)));
+ document.documentElement.lang=LANG==='en'?'en':'zh-CN';
+ document.title=LANG==='en'?'Sip Notes · One cup, one page':'Sip Notes · 一杯一页';
+ document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===LANG))}
+const MO={childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['placeholder','aria-label','title']};
+const mo=new MutationObserver(()=>{mo.disconnect();applyLang();mo.observe(document.body,MO)});
+document.querySelector('.lang').onclick=e=>{const b=e.target.closest('button');if(!b)return;LANG=b.dataset.l;try{localStorage.setItem('sip-lang',LANG)}catch(x){}applyLang();render()};
+
+const DRINKS=['咖啡','茶','抹茶','奶茶','其他'],TEMPS=['热','冰','温','其他'],MOODS=['平静','受启发','有连接','思考','放松','有活力'];
+const load=k=>{try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}};
+let entries=load('sip3-entries'),people=load('sip3-people');
+if(!entries.length){ // migrate v2
+  entries=load('sip2-entries').map(o=>({id:o.id,ts:o.id,photo:o.photo||'',note:o.note||'',title:o.caption||'',story:o.summary||o.talk||'',place:o.place?{text:o.place,source:'manual'}:null,drink:o.drink||'',temp:o.temp||'',sweet:o.sweet||'',price:o.price||'',rating:o.rating||0,mood:'',withType:o.withType||'',pid:o.pid,topics:o.topics||[]}));
+  people=load('sip2-people');
+}
+const persist=()=>{try{localStorage.setItem('sip3-entries',JSON.stringify(entries));localStorage.setItem('sip3-people',JSON.stringify(people))}catch(e){}};
+let sample=null,downloads=null,thumb='',file=null,draft=null;
+const S={withType:'',drink:'',temp:'',sweet:'',rating:0,moods:[]};
+function aiImg(f){return new Promise((res,rej)=>{const i=new Image(),u=URL.createObjectURL(f);i.onload=()=>{const k=1024/Math.max(i.width,i.height,1024),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL('image/jpeg',.8))};i.onerror=()=>rej(Object.assign(new Error('img'),{code:'image_rejected'}));i.src=u})}
+sample={json:async(prompt,o={})=>{const images=[];for(const f of (o.images||[]))images.push(await aiImg(f));
+ const r=await fetch('/api/organize',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({prompt,images})});
+ if(!r.ok)throw Object.assign(new Error('ai'),{code:r.status===429?'rate_limited':'failed'});return r.json()}};
+downloads={save:async({filename,data,mime})=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:mime||'application/json'}));a.download=filename;a.click()}};
+const say=t=>$('#status').textContent=t;
+const errCopy=e=>({not_granted:'你没有允许使用 Claude，已用你写的内容生成预览。',rate_limited:'调用太频繁了，已用你写的内容生成预览。',image_rejected:'这张图读不了，已用你写的内容生成预览。'}[e&&e.code]||'AI 暂时没成功，已用你写的内容生成预览。');
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+// location is an object so GPS / EXIF / OCR / maps lookup can fill it later
+const makePlace=(text,source='manual')=>text?{text,source,lat:null,lng:null,placeId:null}:null;
+
+const mark=(el,key)=>el.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c.dataset.v===String(S[key])));
+function chips(id,opts,key,after){const el=$(id);el.innerHTML=opts.map(o=>`<button type="button" class="chip" data-v="${o}">${o}</button>`).join('');
+ el.onclick=e=>{const b=e.target.closest('.chip');if(!b)return;S[key]=S[key]===b.dataset.v?'':b.dataset.v;mark(el,key);after&&after()}}
+chips('#withC',['一个人','认识的人','新认识的人'],'withType',whoUI);
+chips('#drinkC',DRINKS,'drink');chips('#tempC',TEMPS,'temp');chips('#sweetC',['0%','25%','50%','75%','100%'],'sweet');renderMoodChips();
+$('#starC').innerHTML=[1,2,3,4,5].map(n=>`<button type="button" class="chip" data-v="${n}" aria-label="${n} 星">${'★'.repeat(n)}</button>`).join('');
+$('#starC').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;S.rating=S.rating===+b.dataset.v?0:+b.dataset.v;mark($('#starC'),'rating')};
+function whoUI(){const w=S.withType,show=w&&w!=='一个人';$('#whoBox').classList.toggle('hide',!show);
+ $('#pLab').textContent=w==='新认识的人'?'对方的名字（可选）':'选择或新建一个人';
+ $('#pname').placeholder=w==='新认识的人'?'不知道名字也没关系':'输入名字，或点下面的人';
+ $('#pick').classList.toggle('hide',!(w==='认识的人'&&people.length))}
+$('#pick').onclick=e=>{const b=e.target.closest('.chip');if(b)$('#pname').value=b.dataset.n};
+$('#moreBtn').onclick=()=>{const h=$('#more').classList.toggle('hide');$('#moreBtn').textContent=h?'+ 更多细节':'− 收起细节'};
+$('#placeBtn').onclick=()=>{$('#placeBtn').classList.add('hide');$('#placeWrap').classList.remove('hide');$('#place').focus()};
+$('#priceBtn').onclick=()=>{$('#priceBtn').classList.add('hide');$('#priceWrap').classList.remove('hide');$('#price').focus()};
+
+const canGo=()=>{const ok=!!(thumb||$('#note').value.trim());$('#orgBtn').disabled=!ok;$('#quickBtn').disabled=!ok};
+$('#note').addEventListener('input',canGo);
+function shrink(f){return new Promise(r=>{const i=new Image(),u=URL.createObjectURL(f);i.onload=()=>{const s=360/Math.max(i.width,i.height,360),c=document.createElement('canvas');c.width=i.width*s;c.height=i.height*s;c.getContext('2d').drawImage(i,0,0,c.width,c.height);URL.revokeObjectURL(u);r(c.toDataURL('image/jpeg',.65))};i.onerror=()=>r('');i.src=u})}
+async function onPhoto(e){const fs=[...e.target.files];e.target.value='';for(const f of fs){if(caps.length>=3)break;const url=await shrink(f);if(url)caps.push({url,file:f})}renderCaps()}
+$('#camBtn').onclick=()=>$('#cam').click();$('#libBtn').onclick=()=>$('#lib').click();
+$('#cam').onchange=onPhoto;$('#lib').onchange=onPhoto;
+
+function base(){return{note:$('#note').value.trim(),withType:S.withType,person:$('#pname').value.trim(),drink:S.drink,temp:S.temp,sweet:S.sweet,rating:S.rating,moods:[...S.moods],place:$('#place').value.trim(),price:$('#price').value.trim(),title:'',story:'',topics:[]}}
+
+function fillPreview(d){draft=d;
+ $('#pvTitle').value=d.title;$('#pvStory').value=d.story;$('#pvPlace').value=d.place;$('#pvPerson').value=d.person;$('#pvTopics').value=d.topics.join('、');
+ const opt=(a,v)=>['<option value="">未填</option>'].concat(a.map(x=>`<option value="${x}"${x===v?' selected':''}>${x}</option>`)).join('');
+ $('#pvDrink').innerHTML=opt(DRINKS,d.drink);$('#pvTemp').innerHTML=opt(TEMPS,d.temp);$('#pvMood').value=(d.moods||[]).join('、');$('#pvSweet').innerHTML=opt(['0%','25%','50%','75%','100%'],d.sweet);$('#pvRating').innerHTML=['<option value="">未填</option>'].concat([1,2,3,4,5].map(n=>`<option value="${n}"${+d.rating===n?' selected':''}>${'★'.repeat(n)}</option>`)).join('');$('#pvPrice').value=d.price||'';pvPhotos=d.photos!==undefined?[...d.photos]:caps.map(c=>c.url);showPvThumbs();$('#pvMore').open=false;
+ $('#capture').classList.add('hide');$('#preview').classList.remove('hide');scrollTo(0,0)}
+
+$('#orgBtn').onclick=async()=>{
+  const d=base();$('#orgBtn').disabled=true;
+  if(sample){say('正在整理成记忆……');
+    const p=`你是个人记忆整理助手，把用户随手写的一段话整理成一条记忆。严格规则：只使用用户文字里明确写出的信息，或照片中清晰可读的文字（小票、杯套、招牌）；绝不根据照片猜饮品，也不要描述照片里的物体、饮品、颜色、人物或场景；用户没写文字时，story 必须是空字符串，drink、temp、mood、topics 也必须为空；绝不编造店名、价格、人名、话题或聊天内容；不确定就留空字符串或空数组。只返回 JSON：
+{"title":"简短自然的标题，和用户语言一致。有对方名字时必须用名字，例如“和 Sarah 喝咖啡”；没有名字时用“喝咖啡”这类中性说法，绝不要写“同行的人”这几个字","story":"一两句克制的小故事，只陈述用户写过的事实，不要添加用户没写过的感受、话题或细节；信息很少时宁可只写一句；语言与用户文字一致","drink":"咖啡|茶|抹茶|奶茶|其他，仅当用户明说","temp":"热|冰|温|其他，仅当用户明说（如冰美式→冰）","people":["文字中出现的人名"],"topics":["只写用户文字里明确提到的话题，最多4个；用户没写聊了什么就返回空数组"],"moods":["从 平静|受启发|有连接|思考|放松|有活力 中选，最多3个，仅当用户表达了感受，否则空数组"],"place":"仅当用户明说或照片文字清晰可读","price":"同上"}
+同行关系：${d.withType||'未选'}；对方的名字：${d.person||'用户没有提供名字'}
+用户写的：${d.note||'（只有照片，没有文字）'}
+没有文字时请用${LANG==='en'?'English':'中文'}输出 title 和 story。`;
+    try{const r=await sample.json(p,{modelTier:'quick',...(file?{images:[file]}:{})});
+      d.title=r.title||'';d.story=r.story||'';if(d.person){d.title=d.title.replace(/同行的人/g,d.person);d.story=d.story.replace(/同行的人/g,d.person)}d.topics=r.topics||[];
+      if(!d.drink&&DRINKS.includes(r.drink))d.drink=r.drink;if(!d.temp&&TEMPS.includes(r.temp))d.temp=r.temp;if(!d.moods.length&&Array.isArray(r.moods))d.moods=r.moods.filter(m=>MOODS.includes(m)).slice(0,3);
+      if(!d.note){d.story='';d.topics=[];d.drink=S.drink;d.temp=S.temp;d.moods=[...S.moods];d.title=d.person?(LANG==='en'?'Coffee with '+d.person:'和 '+d.person+' 喝咖啡'):''}
+      if(!d.place&&r.place)d.place=r.place;if(!d.price&&r.price)d.price=r.price;
+      if(!d.person&&(r.people||[]).length===1)d.person=r.people[0];
+      say('');
+    }catch(err){say(errCopy(err))}
+  }
+  if(!d.title)d.title=d.note.split(/[。.\n]/)[0].slice(0,20);
+  if(!d.story&&d.note&&!sample)d.story=d.note;
+  $('#orgBtn').disabled=false;fillPreview(d);
+};
+$('#quickBtn').onclick=()=>{const d=base();d.title=d.note.split(/[。.\n]/)[0].slice(0,20);d.story=d.note;draft=d;commit(d)};
+$('#backBtn').onclick=()=>{$('#preview').classList.add('hide');$('#capture').classList.remove('hide');if(editingId)endEdit()};
+$('#saveBtn').onclick=()=>{const d=draft;
+  Object.assign(d,{title:$('#pvTitle').value.trim(),story:$('#pvStory').value.trim(),place:$('#pvPlace').value.trim(),person:$('#pvPerson').value.trim(),drink:$('#pvDrink').value,temp:$('#pvTemp').value,moods:$('#pvMood').value.split(/[,，、]/).map(x=>x.trim()).filter(Boolean),topics:$('#pvTopics').value.split(/[,，、]/).map(x=>x.trim()).filter(Boolean),sweet:$('#pvSweet').value,rating:+$('#pvRating').value||0,price:$('#pvPrice').value.trim(),photos:pvPhotos});
+  if(editingId){applyEdit(d);return}
+  commit(d)};
+function commit(d){
+  const e={id:Date.now(),ts:Date.now(),photos:(d.photos||caps.map(c=>c.url)),photo:((d.photos||caps.map(c=>c.url))[0]||''),note:d.note,title:d.title,story:d.story,place:makePlace(d.place),drink:d.drink,temp:d.temp,sweet:d.sweet,price:d.price,rating:d.rating,moods:d.moods,withType:d.withType,topics:d.topics};
+  e.person=d.person||'';if(d.person){let p=people.find(x=>x.name.toLowerCase()===d.person.toLowerCase());if(!p){p={id:Date.now()+1,name:d.person};people.push(p)}e.pid=p.id}
+  entries.unshift(e);persist();reset();render();say('已保存。');setTimeout(()=>say(''),2500);if(sess)pushAll([e]);inviteMaybe()}
+function reset(){
+  ['note','pname','place','price'].forEach(k=>$('#'+k).value='');
+  Object.assign(S,{withType:'',drink:'',temp:'',sweet:'',rating:0,moods:[]});
+  document.querySelectorAll('#capture .chips .chip').forEach(c=>c.classList.remove('on'));
+  $('#whoBox').classList.add('hide');$('#more').classList.add('hide');$('#moreBtn').textContent='+ 更多细节';
+  ['placeWrap','priceWrap'].forEach(i=>$('#'+i).classList.add('hide'));['placeBtn','priceBtn'].forEach(i=>$('#'+i).classList.remove('hide'));
+  caps=[];renderCaps();draft=null;$('#cam').value='';$('#lib').value='';
+  $('#preview').classList.add('hide');$('#capture').classList.remove('hide');canGo();renderMoodChips();scrollTo(0,0)}
+
+const pname=e=>(people.find(p=>p.id===e.pid)||{}).name||'';
+function render(){
+  $('#plist').innerHTML=people.map(p=>`<option value="${esc(p.name)}">`).join('');
+  $('#pick').innerHTML=people.map(p=>`<button type="button" class="chip" data-n="${esc(p.name)}">${esc(p.name)}</button>`).join('');whoUI();
+  $('#peopleRow').innerHTML=people.map(p=>`<button type="button" class="chip" data-n="${esc(p.name)}">${esc(p.name)} · ${entries.filter(e=>e.pid===p.id).length}</button>`).join('');
+  const q=$('#q').value.trim().toLowerCase();
+  const list=entries.filter(e=>(!q||(JSON.stringify(e)+pname(e)).toLowerCase().includes(q))&&inRange(e));
+  $('#list').innerHTML=list.length?list.map(e=>{
+    const when=new Date(e.ts||e.id).toLocaleDateString(LANG==='en'?'en-US':'zh-CN',{year:'numeric',month:'long',day:'numeric'});
+    const line=[pname(e)||(e.withType==='一个人'?'一个人':''),e.place&&e.place.text,[e.temp,e.drink].filter(Boolean).map(L).join(LANG==='en'?' ':'')].filter(Boolean).map(esc).join(' · ');
+    const tags=[...(e.topics||[]),...moodsOf(e),e.sweet&&'甜度 '+e.sweet,e.price,e.rating?'★'.repeat(e.rating):''].filter(Boolean);
+    const story=e.story||(e.title?'':e.note);
+    return `<article class="card">${photoBlock(e)}<div style="flex:1;min-width:0"><h3>${esc(e.title||'一个瞬间')}</h3><div class="date">${when}</div>${story?`<div class="story">${esc(story)}</div>`:''}${line?`<div class="meta">${line}</div>`:''}<div>${tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div></div><div class="acts"><button class="ed" data-edit="${e.id}" aria-label="编辑">编辑</button><button class="del" data-id="${e.id}" aria-label="删除">删除</button></div></article>`}).join(''):`<div class="empty">${entries.length?'没有匹配的记忆。':'还没有记忆，拍下现在这一刻吧。'}</div>`;
+}
+$('#list').onclick=e=>{const b=e.target.closest('.del');if(b&&confirm(L('删除这条记忆？'))){const gone=entries.find(x=>String(x.id)===b.dataset.id);entries=entries.filter(x=>String(x.id)!==b.dataset.id);persist();render();if(sess&&gone)pushAll([{...gone,deleted:true,updatedAt:Date.now()}])}};
+$('#peopleRow').onclick=e=>{const b=e.target.closest('.chip');if(b){$('#q').value=$('#q').value===b.dataset.n?'':b.dataset.n;render()}};
+$('#q').oninput=render;
+$('#exp').onclick=async()=>{if(!downloads){say('当前环境不支持导出。');return}try{await downloads.save({filename:'sip-notes.json',data:JSON.stringify({entries,people},null,2)})}catch(e){}};
+Object.assign(DICT,{'未登录：记忆只保存在这台设备上':'Not signed in: memories are saved on this device only','登录 / 注册':'Sign in / Sign up','退出':'Sign out','邮箱':'Email','发送验证码':'Send code','以后再说':'Maybe later','验证码':'Code','登录':'Sign in','换个邮箱':'Use another email','验证码已发送，请查收邮件（也看看垃圾箱）。':'Code sent. Check your inbox (and spam folder).','发送失败，请稍后再试。':'Could not send. Please try again later.','发送太频繁了，请稍后再试。':'Too many requests. Please try again later.','验证码不对或已过期。':'Wrong or expired code.','请输入正确的邮箱。':'Please enter a valid email.','正在发送……':'Sending...','正在登录……':'Signing in...','同步中……':'Syncing...','· ☁️ 已同步到云端':'· ☁️ Synced to the cloud','同步失败，记忆仍保存在本设备上。':'Sync failed. Your memories are still saved on this device.','这条记忆现在只存在这台设备上。输入邮箱，换手机也不会丢。':'This memory is only on this device for now. Enter your email so it is never lost, even if you change phones.','登录后，你的记忆会保存到云端，换手机也不会丢。':'Sign in to keep your memories in the cloud, safe even if you change phones.','退出登录并清除这台设备上的本地记忆？记忆已保存在云端。':'Sign out and clear local memories on this device? They are saved in the cloud.'});
+Object.assign(DICT,{'密码（至少 6 位）':'Password (6+ characters)','注册':'Sign up','没有账号？注册':'No account? Sign up','已有账号？登录':'Have an account? Sign in','密码至少 6 位。':'Password must be at least 6 characters.','请稍候……':'Please wait...','这个邮箱已注册，请直接登录。':'This email is already registered. Please sign in.','邮箱或密码不对。':'Wrong email or password.','密码太简单，请换一个。':'Password is too weak. Try another.','尝试太频繁，请稍后再试。':'Too many attempts. Please try again later.','注册成功，但需要邮箱确认。请先在 Supabase 关闭 Confirm email。':'Signed up, but email confirmation is on. Turn off Confirm email in Supabase.','失败，请稍后再试。':'Failed. Please try again later.','这条记忆现在只存在这台设备上。注册一个账号，换手机也不会丢。':'This memory is only on this device for now. Create an account so it is never lost, even if you change phones.'});
+Object.assign(DICT,{'同步失败，为避免丢失记忆，暂不退出。请先点“导出”备份，或稍后再试。':'Sync failed, so sign-out was cancelled to avoid losing memories. Export a backup first, or try again later.'});
+Object.assign(DICT,{'导出日记':'Export journal','备份':'Backup','还没有记忆可导出。':'No memories to export yet.'});
+PAT.push([/^已登录：(.+)$/,'Signed in: $1']);
+// ---- Supabase (REST, no SDK): email-code login + cloud sync ----
+const SB={url:'https://sosgfsjmldnxxtimjgcv.supabase.co',key:'sb_publishable__ioTTwbmAru4wB44oGWsjw_u1kp8nM8'};
+let sess=null;try{sess=JSON.parse(localStorage.getItem('sip-sess')||'null')}catch(e){}
+const saveSess=s=>{sess=s;try{s?localStorage.setItem('sip-sess',JSON.stringify(s)):localStorage.removeItem('sip-sess')}catch(e){}};
+async function refreshSess(){try{const r=await fetch(SB.url+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:SB.key,'content-type':'application/json'},body:JSON.stringify({refresh_token:sess.refresh_token})});if(!r.ok){saveSess(null);return false}const j=await r.json();saveSess({access_token:j.access_token,refresh_token:j.refresh_token,email:sess.email});return true}catch(e){return false}}
+async function sbReq(path,o={},retry=true){const h={apikey:SB.key,'content-type':'application/json',...(o.headers||{})};if(sess&&!o.noauth)h.authorization='Bearer '+sess.access_token;
+ const r=await fetch(SB.url+path,{method:o.method,body:o.body,headers:h});
+ if(r.status===401&&sess&&retry&&!o.noauth&&await refreshSess())return sbReq(path,o,false);return r}
+const toRow=e=>({client_id:String(e.id),data:{...e,person:e.person||pname(e)}});
+async function pushAll(list){if(!sess||!list.length)return true;const r=await sbReq('/rest/v1/memories?on_conflict=user_id,client_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},body:JSON.stringify(list.map(toRow))});return r.ok}
+function ensurePerson(e){let p=people.find(x=>x.name.toLowerCase()===e.person.toLowerCase());if(!p){p={id:Date.now()+Math.floor(Math.random()*1e6),name:e.person};people.push(p)}e.pid=p.id}
+async function pull(){const r=await sbReq('/rest/v1/memories?select=client_id,data&order=created_at.desc&limit=1000');if(!r.ok)return false;const have=new Set(entries.map(e=>String(e.id)));
+ for(const x of await r.json()){if(have.has(x.client_id))continue;const e=x.data;if(e.person)ensurePerson(e);entries.push(e)}
+ entries.sort((a,b)=>(b.ts||b.id)-(a.ts||a.id));return true}
+function setAcct(extra){$('#acctTxt').textContent=sess?'已登录：'+sess.email:'未登录：记忆只保存在这台设备上';$('#acctSync').textContent=sess&&extra!==undefined?extra:'';$('#acctBtn').textContent=sess?'退出':'登录 / 注册'}
+async function syncAll(){if(!sess)return;setAcct('同步中……');let ok=false;
+ try{const r=await sbReq('/rest/v1/memories?select=client_id,data&order=created_at.desc&limit=1000');
+  if(r.ok){const remote=new Map((await r.json()).map(x=>[x.client_id,x.data]));
+   for(const [cid,e] of remote){const loc=entries.find(l=>String(l.id)===cid);
+    if(e.deleted){if(loc)entries.splice(entries.indexOf(loc),1);continue}
+    if(!loc){if(e.person)ensurePerson(e);else delete e.pid;entries.push(e)}
+    else if((e.updatedAt||0)>(loc.updatedAt||0)){Object.assign(loc,e);if(loc.person)ensurePerson(loc);else delete loc.pid}}
+   entries.sort((a,b)=>(b.ts||b.id)-(a.ts||a.id));
+   const up=entries.filter(l=>{const e=remote.get(String(l.id));return !e||(l.updatedAt||0)>(e.updatedAt||0)});
+   ok=await pushAll(up);persist();render()}}catch(e){}
+ if(sess)setAcct(ok?'· ☁️ 已同步到云端':'同步失败，记忆仍保存在本设备上。');else setAcct();return ok}
+const ls=t=>$('#lstatus').textContent=t;let pendingEmail='';
+let authMode='signin';
+function setMode(m){authMode=m;$('#authBtn').textContent=m==='signup'?'注册':'登录';$('#modeBtn').textContent=m==='signup'?'已有账号？登录':'没有账号？注册';$('#lpass').autocomplete=m==='signup'?'new-password':'current-password'}
+function showLogin(msg,mode){setMode(mode||'signin');$('#loginMsg').textContent=msg||'登录后，你的记忆会保存到云端，换手机也不会丢。';$('#loginBox').classList.remove('hide');ls('');$('#loginBox').scrollIntoView({behavior:'smooth',block:'center'})}
+function inviteMaybe(){if(sess)return;const n=entries.length;if(n===1||n===3||(n>3&&n%5===0))showLogin('这条记忆现在只存在这台设备上。注册一个账号，换手机也不会丢。','signup')}
+$('#laterBtn').onclick=()=>$('#loginBox').classList.add('hide');
+$('#modeBtn').onclick=()=>{setMode(authMode==='signup'?'signin':'signup');ls('')};
+$('#authBtn').onclick=async()=>{const em=$('#lemail').value.trim(),pw=$('#lpass').value;
+ if(!/^\S+@\S+\.\S+$/.test(em)){ls('请输入正确的邮箱。');return}
+ if(pw.length<6){ls('密码至少 6 位。');return}
+ $('#authBtn').disabled=true;ls('请稍候……');
+ try{const r=await sbReq(authMode==='signup'?'/auth/v1/signup':'/auth/v1/token?grant_type=password',{method:'POST',noauth:true,body:JSON.stringify({email:em,password:pw})});
+  const j=await r.json().catch(()=>({}));const code=j.error_code||j.error_description||j.msg||'';
+  if(r.ok&&j.access_token){saveSess({access_token:j.access_token,refresh_token:j.refresh_token,email:em});$('#loginBox').classList.add('hide');$('#lpass').value='';setAcct();await syncAll()}
+  else if(r.ok)ls('注册成功，但需要邮箱确认。请先在 Supabase 关闭 Confirm email。');
+  else if(/exists|registered/i.test(code))ls('这个邮箱已注册，请直接登录。');
+  else if(/invalid/i.test(code))ls('邮箱或密码不对。');
+  else if(/weak/i.test(code))ls('密码太简单，请换一个。');
+  else if(r.status===429)ls('尝试太频繁，请稍后再试。');
+  else ls('失败（'+r.status+' '+code+'）。')}catch(e){ls('网络连接失败，请检查网络后重试。（'+e.message+'）')}
+ $('#authBtn').disabled=false};
+$('#acctBtn').onclick=async()=>{if(!sess){showLogin(undefined,'signin');return}
+ const ok=await syncAll();if(!ok){alert(L('同步失败，为避免丢失记忆，暂不退出。请先点“导出”备份，或稍后再试。'));return}
+ if(!confirm(L('退出登录并清除这台设备上的本地记忆？记忆已保存在云端。')))return;
+ saveSess(null);entries=[];people=[];persist();render();setAcct()};
+setAcct();if(sess)syncAll();
+function journalHTML(){
+ const en=LANG==='en',loc=en?'en-US':'zh-CN',D=t=>new Date(t).toLocaleDateString(loc,{year:'numeric',month:'long',day:'numeric'});
+ const body=entries.map(e=>{
+  const who=pname(e)||(e.withType==='一个人'?'一个人':'');
+  const line=[who,e.place&&e.place.text,[e.temp,e.drink].filter(Boolean).map(L).join(en?' ':'')].filter(Boolean).map(x=>esc(L(x))).join(' · ');
+  const tags=[...(e.topics||[]),...moodsOf(e).map(L),e.sweet&&(en?'Sweetness ':'甜度 ')+e.sweet,e.price,e.rating?'★'.repeat(e.rating):''].filter(Boolean);
+  const story=e.story||(e.title?'':e.note);
+  return `<article><div class="ph">${photosOf(e).map(u=>`<img src="${u}" alt="">`).join('')}</div><div><h2>${esc(e.title||L('一个瞬间'))}</h2><div class="d">${D(e.ts||e.id)}</div>${story?`<p class="s">${esc(story)}</p>`:''}${line?`<div class="m">${line}</div>`:''}<div>${tags.map(t=>`<span>${esc(t)}</span>`).join('')}</div></div></article>`}).join('');
+ return `<!DOCTYPE html><html lang="${en?'en':'zh-CN'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sip Notes</title><style>body{margin:0;background:#efe3cc;color:#3b2a20;font:16px/1.7 "Noto Serif SC",Georgia,serif}main{max-width:640px;margin:0 auto;padding:32px 18px}h1{font-size:34px;margin:0}article{display:flex;gap:14px;background:#f8f0df;padding:16px;margin:22px 0;box-shadow:0 4px 12px rgba(60,35,15,.12);break-inside:avoid}article .ph{display:flex;flex-direction:column;gap:6px;flex:none}article img{width:96px;height:96px;object-fit:cover;border:4px solid #fff;flex:none}h2{margin:0;font-size:20px}.d,.m{font-size:13px;color:#8a6f5a}.s{font-size:17px;margin:6px 0}span{display:inline-block;font-size:11px;border:1px solid #8a6f5a;border-radius:10px;padding:0 8px;margin:6px 4px 0 0;color:#8a6f5a}</style></head><body><main><h1>Sip Notes</h1><p class="d">${en?'Exported on ':'导出于 '}${D(Date.now())} · ${entries.length}${en?' memories':' 条记忆'}</p>${body}</main></body></html>`}
+$('#expJ').onclick=()=>{if(!entries.length){say(L('还没有记忆可导出。'));return}downloads.save({filename:'sip-notes-journal.html',data:journalHTML(),mime:'text/html'})};
+Object.assign(DICT,{'全部时间':'All time','最近 7 天':'Last 7 days','本月':'This month','今年':'This year','自定义':'Custom range','开始日期':'From date','结束日期':'To date'});
+S.time='';
+function inRange(e){const t=e.ts||e.id,now=new Date(),d=new Date(t);
+ if(S.time==='最近 7 天')return t>=Date.now()-7*864e5;
+ if(S.time==='本月')return d.getFullYear()===now.getFullYear()&&d.getMonth()===now.getMonth();
+ if(S.time==='今年')return d.getFullYear()===now.getFullYear();
+ if(S.time==='自定义'){const f=$('#dFrom').value,to=$('#dTo').value,ymd=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');return (!f||ymd>=f)&&(!to||ymd<=to)}
+ return true}
+chips('#timeC',['全部时间','最近 7 天','本月','今年','自定义'],'time',()=>{$('#rangeBox').classList.toggle('hide',S.time!=='自定义');render()});
+$('#dFrom').oninput=$('#dTo').oninput=render;
+Object.assign(DICT,{'心情（可多选）':'Mood (pick several)','+ 自定义心情，回车添加':'+ Custom mood, press Enter','心情（可多个，可自由填写）':'Mood (several, free text)','用顿号分隔':'Separate with commas','反馈':'Feedback','给我们反馈':'Send us feedback','名字':'Name','类型':'Type','功能建议':'Feature request','问题 / Bug':'Bug','产品建议':'Product advice','内容':'Message','联系方式（可选）':'Contact (optional)','邮箱 / 微信 / LinkedIn':'Email / WeChat / LinkedIn','相关图片（可选）':'Related image (optional)','提交':'Submit','取消':'Cancel','谢谢，已收到！':'Thank you, received!','请填写名字和内容。':'Please fill in your name and message.','提交失败，请稍后再试。':'Could not submit. Please try again later.'});
+function moodsOf(e){return e.moods||(e.mood?[e.mood]:[])}
+function renderMoodChips(){const box=$('#moodC');box.textContent='';[...MOODS,...S.moods.filter(m=>!MOODS.includes(m))].forEach(m=>{const b=document.createElement('button');b.type='button';b.className='chip'+(S.moods.includes(m)?' on':'');b.dataset.v=m;b.textContent=m;box.appendChild(b)})}
+$('#moodC').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;const v=b.dataset.v;S.moods=S.moods.includes(v)?S.moods.filter(x=>x!==v):[...S.moods,v];renderMoodChips()};
+$('#moodCustom').addEventListener('keydown',e=>{if(e.key!=='Enter')return;e.preventDefault();const v=e.target.value.trim();if(v&&!S.moods.includes(v)&&S.moods.length<8)S.moods.push(v);e.target.value='';renderMoodChips()});
+// ---- feedback ----
+const fbShow=v=>$('#fbBox').classList.toggle('hide',!v);
+$('#fbOpen').onclick=()=>{$('#fbStatus').textContent='';fbShow(true);$('#fbName').focus()};
+$('#fbLink').onclick=$('#fbLink2').onclick=$('#fbOpen').onclick;
+$('#fbCancel').onclick=()=>fbShow(false);
+$('#fbBox').addEventListener('click',e=>{if(e.target.id==='fbBox')fbShow(false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')fbShow(false)});
+function fbImg(f){return new Promise(res=>{const i=new Image(),u=URL.createObjectURL(f);i.onload=()=>{const k=800/Math.max(i.width,i.height,800),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL('image/jpeg',.65))};i.onerror=()=>res('');i.src=u})}
+$('#fbSend').onclick=async()=>{const name=$('#fbName').value.trim(),msg=$('#fbMsg').value.trim();
+ if(!name||!msg){$('#fbStatus').textContent='请填写名字和内容。';return}
+ $('#fbSend').disabled=true;let img='';const f=$('#fbImg').files[0];if(f)img=await fbImg(f);
+ try{const r=await sbReq('/rest/v1/feedback',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({name,type:$('#fbType').value,message:msg,contact:$('#fbContact').value.trim()||null,image:img||null,lang:LANG,page:location.pathname})});
+  if(r.ok){$('#fbStatus').textContent='谢谢，已收到！';['fbName','fbMsg','fbContact','fbImg'].forEach(k=>$('#'+k).value='');setTimeout(()=>fbShow(false),1500)}else $('#fbStatus').textContent='提交失败，请稍后再试。'}catch(e){$('#fbStatus').textContent='提交失败，请稍后再试。'}
+ $('#fbSend').disabled=false};
+Object.assign(DICT,{'编辑':'Edit','✏️ 编辑记忆':'✏️ Edit memory','保存修改':'Save changes','已更新。':'Updated.'});
+let editingId=null;
+function endEdit(){editingId=null;$('#preview h2').textContent='✨ 你的记忆';$('#saveBtn').textContent='保存记忆';$('#backBtn').textContent='返回修改'}
+function startEdit(id){const e=entries.find(x=>String(x.id)===String(id));if(!e)return;editingId=id;
+ fillPreview({note:e.note||'',withType:e.withType||'',person:pname(e)||e.person||'',drink:e.drink||'',temp:e.temp||'',sweet:e.sweet||'',rating:e.rating||0,moods:[...moodsOf(e)],place:(e.place&&e.place.text)||'',price:e.price||'',title:e.title||'',story:e.story||'',topics:[...(e.topics||[])],photos:[...photosOf(e)]});$('#pvMore').open=true;
+ $('#preview h2').textContent='✏️ 编辑记忆';$('#saveBtn').textContent='保存修改';$('#backBtn').textContent='取消'}
+function applyEdit(d){const e=entries.find(x=>String(x.id)===String(editingId));if(!e){endEdit();return}
+ e.title=d.title;e.story=d.story;e.sweet=d.sweet;e.rating=d.rating;e.price=d.price;e.photos=[...d.photos];e.photo=d.photos[0]||'';e.drink=d.drink;e.temp=d.temp;e.moods=d.moods;delete e.mood;e.topics=d.topics;
+ e.place=d.place?(e.place&&e.place.text===d.place?e.place:makePlace(d.place)):null;
+ e.person=d.person||'';if(d.person)ensurePerson(e);else delete e.pid;
+ e.updatedAt=Date.now();persist();render();if(sess)pushAll([e]);
+ endEdit();$('#preview').classList.add('hide');$('#capture').classList.remove('hide');say('已更新。');setTimeout(()=>say(''),2500)}
+$('#list').addEventListener('click',e=>{const b=e.target.closest('.ed');if(b)startEdit(b.dataset.edit)});
+Object.assign(DICT,{'甜度、评分、价格、照片':'Sweetness, rating, price, photo','未填':'Not set','照片':'Photo','更换 / 添加照片':'Change / add photo','移除照片':'Remove photo'});
+Object.assign(DICT,{'照片（最多 3 张）':'Photos (up to 3)','添加照片':'Add photo','替换':'Replace','删除照片':'Remove photo'});
+PAT.push([/^已选 (\d)\/3 张$/,'$1/3 photos']);
+const photosOf=e=>e.photos||(e.photo?[e.photo]:[]);
+function photoBlock(e){const p=photosOf(e);if(!p.length)return'';return `<div class="pcol"><img class="thumb" alt="" src="${p[0]}">${p.length>1?`<div class="mini">${p.slice(1).map(u=>`<img alt="" src="${u}">`).join('')}</div>`:''}</div>`}
+// capture screen: up to 3 photos
+let caps=[];
+function renderCaps(){const box=$('#thumbs');box.textContent='';
+ caps.forEach((c,i)=>{const w=document.createElement('span');w.className='th';const im=document.createElement('img');im.src=c.url;im.alt='';const x=document.createElement('button');x.type='button';x.className='x';x.dataset.i=i;x.setAttribute('aria-label','删除照片');x.textContent='×';w.append(im,x);box.appendChild(w)});
+ thumb=caps[0]?caps[0].url:'';file=caps[0]?caps[0].file:null;
+ $('#snapTitle').textContent=caps.length?'好，再写一句话':'先拍下这一刻';
+ $('#capHint').textContent=caps.length?'已选 '+caps.length+'/3 张':'';
+ $('#camBtn').disabled=caps.length>=3;$('#libBtn').disabled=caps.length>=3;canGo()}
+$('#thumbs').onclick=e=>{const b=e.target.closest('.x');if(b){caps.splice(+b.dataset.i,1);renderCaps()}};
+// preview / edit screen: add, replace, remove
+let pvPhotos=[],pvTarget=-1;
+function showPvThumbs(){const box=$('#pvThumbs');box.textContent='';
+ pvPhotos.forEach((u,i)=>{const w=document.createElement('div');w.className='pvth';const im=document.createElement('img');im.src=u;im.alt='';const r=document.createElement('div');r.className='bar';r.style.marginTop='4px';
+  const rb=document.createElement('button');rb.type='button';rb.className='link';rb.dataset.act='rep';rb.dataset.i=i;rb.textContent='替换';
+  const db=document.createElement('button');db.type='button';db.className='link';db.dataset.act='del';db.dataset.i=i;db.textContent='删除';
+  r.append(rb,db);w.append(im,r);box.appendChild(w)});
+ $('#pvAdd').disabled=pvPhotos.length>=3;$('#pvHint').textContent='已选 '+pvPhotos.length+'/3 张'}
+$('#pvThumbs').onclick=e=>{const b=e.target.closest('button');if(!b)return;const i=+b.dataset.i;
+ if(b.dataset.act==='del'){pvPhotos.splice(i,1);showPvThumbs()}else{pvTarget=i;const inp=$('#pvPhoto');inp.multiple=false;inp.click()}};
+$('#pvAdd').onclick=()=>{if(pvPhotos.length>=3)return;pvTarget=-1;const inp=$('#pvPhoto');inp.multiple=true;inp.click()};
+$('#pvPhoto').onchange=async e=>{const fs=[...e.target.files];e.target.value='';
+ if(pvTarget>=0){if(fs[0]){const u=await shrink(fs[0]);if(u)pvPhotos[pvTarget]=u}}
+ else for(const f of fs){if(pvPhotos.length>=3)break;const u=await shrink(f);if(u)pvPhotos.push(u)}
+ showPvThumbs()};
+render();canGo();applyLang();mo.observe(document.body,MO);
+</script>
+</body>
+</html>
