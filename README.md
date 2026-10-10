@@ -7,7 +7,7 @@ Take a photo, write one sentence, and AI organizes it into a memory you confirm 
 
 **Live demo:** https://wonderful-lamington-a990c2.netlify.app  ·  **Case study:** `/about.html` (中文 / English)
 
-<!-- Add screenshots after recording demo data: ![capture](shots/1.png) ![preview](shots/2.png) ![cards](shots/3.png) -->
+![capture](shots/sip-notes-1.png) ![preview](shots/sip-notes-2.png) ![cards](shots/sip-notes-3.png)
 
 ## Why
 Tracking apps usually die for two reasons: logging takes effort, and you get nothing back. What I want to keep from a café visit is not "an americano", it is the moment and the person I met. v1 asked AI to recognize the drink from a photo; it was unreliable and low-value, so I cut it and changed AI's role from *recognizing* to *organizing*.
