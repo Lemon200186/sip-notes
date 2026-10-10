@@ -18,9 +18,9 @@ svg{width:100%;height:auto}svg rect{fill:var(--c);stroke:var(--s)}svg text{fill:
 <div class="box"><b>TL;DR</b><br>A personal memory layer for real life, built around coffee &amp; tea. One photo and one sentence become a memory. AI organizes (title, short story, people, topics) instead of recognizing drinks, never invents details, and the user confirms every memory before saving. Serverless AI proxy, provider-swappable via env vars, local-first storage with optional cloud sync (Supabase, row-level security).</div>
 <h2><span class="zh">产品截图</span><span class="en">Screenshots</span></h2>
 <div class="shots">
-<figure><img src="shots/1.png" alt="capture" onerror="this.parentElement.style.display='none'"><figcaption><span class="zh">拍一张，写一句</span><span class="en">Take a photo, write a line</span></figcaption></figure>
-<figure><img src="shots/2.png" alt="memory preview" onerror="this.parentElement.style.display='none'"><figcaption><span class="zh">整理成记忆，可编辑</span><span class="en">Memory preview, editable</span></figcaption></figure>
-<figure><img src="shots/3.png" alt="memory cards" onerror="this.parentElement.style.display='none'"><figcaption><span class="zh">故事优先的卡片</span><span class="en">Story-first cards</span></figcaption></figure>
+<figure><img src="shots/sip-notes-1.png" alt="capture" onerror="this.parentElement.style.display='none'"><figcaption><span class="zh">拍一张，写一句</span><span class="en">Take a photo, write a line</span></figcaption></figure>
+<figure><img src="shots/sip-notes-2.png" alt="memory preview" onerror="this.parentElement.style.display='none'"><figcaption><span class="zh">整理成记忆，可编辑</span><span class="en">Memory preview, editable</span></figcaption></figure>
+<figure><img src="shots/sip-notes-3.png" alt="memory cards" onerror="this.parentElement.style.display='none'"><figcaption><span class="zh">故事优先的卡片</span><span class="en">Story-first cards</span></figcaption></figure>
 </div>
 <div class="zh">
 <h1>Sip Notes · 产品说明</h1>
@@ -34,6 +34,7 @@ svg{width:100%;height:auto}svg rect{fill:var(--c);stroke:var(--s)}svg text{fill:
 <p><b>上线与测试。</b>部署到公开网址，用真实手机测试。测试中发现一个问题：即使用户已经填了人名，标题仍写成"和同行的人喝咖啡"。原因是提示词里的字段标签被模型当成了正文。我改了提示词，并加了一层代码保护，把残留的占位词替换成用户填写的名字，同时收紧了话题和感受只能来自用户文字。</p>
 <p><b>先体验，再留存。</b>不登录也能完成第一条记忆，保存之后才邀请用邮箱和密码注册；登录后，这台设备上已有的记忆会自动同步到云端，换手机也不会丢。目前用邮箱加密码，是因为免费方案下要自定义验证码邮件，需要自己的域名和邮件服务；有了之后会升级成验证码登录。</p>
 <p><b>反馈入口。</b>页面右下角有反馈窗口，用户可以选择功能建议、问题或产品建议，并附上图片，我直接在后台读取。</p>
+<p><b>持续迭代。</b>之后又加上了：编辑已保存的记忆、每条最多三张照片（可以单独添加、替换或删除）、按人和时间筛选、导出可读的日记。</p>
 </div>
 <h2>AI 设计：宁可留空，不要编造</h2>
 <div class="box">只使用用户写出的内容，或照片里清晰可读的文字；不根据图片猜饮品，不编造店名、价格、人名和话题；不确定就留空。结果以预览呈现，用户手填的字段永远优先于 AI。</div>
@@ -45,7 +46,7 @@ svg{width:100%;height:auto}svg rect{fill:var(--c);stroke:var(--s)}svg text{fill:
 <path d="M136 58H180M320 58H364M494 58H538"/></svg>
 <ul><li>密钥只在服务端，不进浏览器；函数带限流，防止被刷。</li><li>OpenAI 兼容接口：换模型只改环境变量，可在国内模型与海外模型之间切换。</li><li>地点是带来源（手动 / EXIF / OCR / GPS）的对象，为之后接入地图预留。</li><li>账号与云端同步用 Supabase：每个用户只能读写自己的记忆（行级安全）。</li></ul>
 <h2>刻意不做的</h2><p>社交动态、关注、点赞、公开主页、推荐、咖啡店数据库、复杂 RAG。它是私人的，不是社区。</p>
-<h2>下一步</h2><ul><li>编辑已保存的记忆</li><li>某个人 / 某个话题的记忆时间线</li><li>邮箱验证码登录和找回密码（需要自己的域名和邮件服务）</li><li>语音记录</li></ul>
+<h2>下一步</h2><ul><li>建一个约 30 条的小评测集，统计 AI 的“编造率”，改提示词或换模型时有数可比</li><li>某个人 / 某个话题的记忆时间线</li><li>邮箱验证码登录和找回密码（需要自己的域名和邮件服务）</li><li>语音记录</li><li>用户变多之后：照片改存对象存储，并加上监控</li></ul>
 <p class="s foot">联系 / Contact：<a href="mailto:lemonywm@gmail.com">lemonywm@gmail.com</a></p>
 </div>
 <div class="en">
@@ -60,6 +61,7 @@ svg{width:100%;height:auto}svg rect{fill:var(--c);stroke:var(--s)}svg text{fill:
 <p><b>Ship and test.</b> I deployed to a public URL and tested on a real phone. I found a bug: even after the user typed a name, the title read "coffee with my companion", because the model treated a field label in my prompt as content. I rewrote the prompt, added a code guard that replaces leftover placeholder words with the user's name, and tightened topics and feelings so they only come from the user's own text.</p>
 <p><b>Experience first, keep later.</b> The first memory works without an account; only after saving do I invite the user to sign up with email and password. After signing in, memories already on the device sync to the cloud automatically, so nothing is lost when they change phones. I use email and password for now because customizing code emails on the free plan needs my own domain and mail service; once I have those I will upgrade to email-code login.</p>
 <p><b>Feedback loop.</b> A feedback window sits at the bottom right: users pick feature request, bug or product advice and can attach an image, and I read it in the back office.</p>
+<p><b>Iterating.</b> I then added editing of saved memories, up to three photos per memory (added, replaced or removed individually), filtering by person and time, and a readable journal export.</p>
 </div>
 <h2>AI design: leave it blank rather than make it up</h2>
 <div class="box">Use only what the user wrote, or text clearly legible in the photo. Never guess the drink from the image; never invent café names, prices, people or topics; leave a field empty when unsure. Results appear as a preview, and what the user typed always overrides the AI.</div>
@@ -71,7 +73,7 @@ svg{width:100%;height:auto}svg rect{fill:var(--c);stroke:var(--s)}svg text{fill:
 <path d="M136 58H180M320 58H364M494 58H538"/></svg>
 <ul><li>The API key lives server-side only, and the function is rate-limited to prevent abuse.</li><li>OpenAI-compatible interface: swap models by changing environment variables, between Chinese and overseas providers.</li><li>Place is an object with a source (manual / EXIF / OCR / GPS), ready for maps later.</li><li>Accounts and cloud sync run on Supabase: each user can only read and write their own memories (row-level security).</li></ul>
 <h2>Deliberately not built</h2><p>Social feed, followers, likes, public profiles, recommendations, a café database, complex RAG. It is private, not a community.</p>
-<h2>Next</h2><ul><li>Edit saved memories</li><li>Timeline per person / topic</li><li>Email-code login and password reset (needs my own domain and mail service)</li><li>Voice notes</li></ul>
+<h2>Next</h2><ul><li>A small evaluation set of about 30 notes to measure how often the AI invents details, so prompt and model changes can be compared with numbers</li><li>Timeline per person / topic</li><li>Email-code login and password reset (needs my own domain and mail service)</li><li>Voice notes</li><li>At larger scale: move photos to object storage and add monitoring</li></ul>
 <p class="s foot">Contact: <a href="mailto:lemonywm@gmail.com">lemonywm@gmail.com</a></p>
 </div>
 </main>
